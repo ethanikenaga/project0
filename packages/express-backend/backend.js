@@ -11,6 +11,10 @@ const addUser = (user) => {
   return user;
 };
 
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
+
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
   addUser(userToAdd);
@@ -20,6 +24,24 @@ app.post("/users", (req, res) => {
 const findUserByName = (name) => {
   return users["users_list"].filter((user) => user["name"] === name);
 };
+
+const deletedUserById = (id) => {
+    const userIndex = users["users_list"].findIndex(
+        (user) => user["id"] === id);
+    if (userIndex === -1) {
+        return undefined;
+    }
+    const [deletedUser] = users["users_list"].splice(userIndex, 1);
+    return deletedUser;
+}
+app.delete("/users/:id", (req, res) => {
+    const deletedUser = deletedUserById(req.params.id);
+    if (deletedUser === undefined) {
+        res.status(404).send("Resource not found.");
+    } else {
+        res.send(deletedUser);
+    }
+});
 
 app.get("/users", (req, res) => {
   const name = req.query.name;
