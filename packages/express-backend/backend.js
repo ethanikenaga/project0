@@ -6,8 +6,19 @@ const port = 8000;
 
 app.use(express.json());
 
+const findUserByName = (name) => {
+  return users["users_list"].filter((user) => user["name"] === name);
+};
+
 app.get("/users", (req, res) => {
-  res.send(users);
+  const name = req.query.name;
+
+  if (name !== undefined) {
+    const result = { users_list: findUserByName(name) };
+    res.send(result);
+  } else {
+    res.send(users);
+  }
 });
 
 app.listen(port, () => {
