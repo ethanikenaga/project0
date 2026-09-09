@@ -25,6 +25,12 @@ const findUserByName = (name) => {
   return users["users_list"].filter((user) => user["name"] === name);
 };
 
+const findUserByNameAndJob = (name, job) => {
+  return users["users_list"].filter(
+    (user) => user["name"] === name && user["job"] === job
+  );
+};
+
 const deletedUserById = (id) => {
     const userIndex = users["users_list"].findIndex(
         (user) => user["id"] === id);
@@ -45,10 +51,16 @@ app.delete("/users/:id", (req, res) => {
 
 app.get("/users", (req, res) => {
   const name = req.query.name;
+  const job = req.query.job;
 
   if (name !== undefined) {
-    const result = { users_list: findUserByName(name) };
-    res.send(result);
+    if (job !== undefined) {
+      const result = { users_list: findUserByNameAndJob(name, job) };
+      res.send(result);
+    } else {
+      const result = { users_list: findUserByName(name) };
+      res.send(result);
+    }
   } else {
     res.send(users);
   }
