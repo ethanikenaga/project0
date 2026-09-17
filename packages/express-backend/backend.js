@@ -19,8 +19,10 @@ app.get("/", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
-  person.id = generateId();
+
+  userToAdd.id = generateId();
   addUser(userToAdd);
+  
   res.status(201).send();
 });
 
