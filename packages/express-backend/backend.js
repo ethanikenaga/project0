@@ -18,12 +18,14 @@ app.get("/", (req, res) => {
 });
 
 app.post("/users", (req, res) => {
-  const userToAdd = req.body;
+  const userToAdd = {
+    ...req.body,
+    id: generateId(),
+  };
 
-  userToAdd.id = generateId();
   addUser(userToAdd);
-  
-  res.status(201).send();
+
+  res.status(201).json(userToAdd);
 });
 
 function generateId() {
