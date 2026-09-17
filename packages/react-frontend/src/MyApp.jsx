@@ -31,11 +31,24 @@ function MyApp() {
   }, []);
 
   function removeOneCharacter(index) {
-    const updated = characters.filter((character, i) => {
-      return i !== index;
+  const characterToDelete = characters[index];
+
+  deleteUser(characterToDelete.id)
+    .then((response) => {
+      if (response.status !== 204) {
+        throw new Error("delete failed");
+      }
+
+      setCharacters((currentCharacters) =>
+        currentCharacters.filter(
+          (character) => character.id !== characterToDelete.id
+        )
+      );
+    })
+    .catch((error) => {
+      console.log(error);
     });
-    setCharacters(updated);
-  }
+}
 
   function deleteUser(id) {
     return fetch(`http://localhost:8000/users/${id}`, {
