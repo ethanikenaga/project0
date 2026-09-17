@@ -19,9 +19,14 @@ app.get("/", (req, res) => {
 
 app.post("/users", (req, res) => {
   const userToAdd = req.body;
+  person.id = generateId();
   addUser(userToAdd);
-  res.send();
+  res.status(201).send();
 });
+
+function generateId() {
+  return Math.floor(Math.random() * 1000000);
+}
 
 const findUserByName = (name) => {
   return users["users_list"].filter((user) => user["name"] === name);
