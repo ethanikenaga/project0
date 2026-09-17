@@ -37,6 +37,12 @@ function MyApp() {
     setCharacters(updated);
   }
 
+  function deleteUser(id) {
+    return fetch(`http://localhost:8000/users/${id}`, {
+      method: "DELETE",
+    });
+  }
+
 function updateList(person) {
   postUser(person)
     .then((response) => {
