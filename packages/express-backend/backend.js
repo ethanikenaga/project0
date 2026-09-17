@@ -23,9 +23,9 @@ app.post("/users", (req, res) => {
     id: generateId(),
   };
 
-  addUser(userToAdd);
+  const newUser = addUser(userToAdd);
 
-  res.status(201).json(userToAdd);
+  res.status(201).json(newUser);
 });
 
 function generateId() {
